@@ -11,8 +11,8 @@ void menu();
 void opciones(int);
 void mostrarDatos();
 void insersion();
-void eliminacion();
-Val busqueda();
+void eliminacion(int);
+Val busqueda(int);
 
 int main(int argc, char** argv) {
     printf("BIENVENIDO");
@@ -80,8 +80,38 @@ void insersion(int dato){
     printf("Se ingreso la persona Correctamente");
 }
 
-void eliminacion(int dato){
-
+void eliminacion(int idE){
+    Val vt;
+    Val valElim;    
+    Val valB = busqueda(idE);
+    valElim = primerValor;                    
+    if (valB == NULL)
+    {        
+        printf("El valor no existe con ese ID \n");
+    }else{
+        if (primerValor->id == idE)
+        {
+            valElim = primerValor;
+            primerValor = primerValor->getSiguiente();
+            valElim->setSiguiente(NULL);
+            delete valElim;
+        }
+        else{
+            vt = primerValor;
+            while(vt != NULL)
+            {
+                if(valElim->id == idE){            
+                    break;
+                }                   
+                vt = valElim;
+                valElim = valElim->getSiguiente();                
+            }
+            vt->setSiguiente(valElim->getSiguiente());
+            valElim->setSiguiente(NULL);
+            delete valElim; 
+        }
+        printf("Valor eliminado exitosamente \n");
+    }
 }
 
 Val busqueda(int idBus){
@@ -137,9 +167,7 @@ void opciones(int numOpcion){
         }else{
             valBus->mostrarInfo();
         }
-        
         printf("\n");
-        
     }
 
 }
